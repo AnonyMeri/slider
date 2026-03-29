@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>レンジスライダー</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .slider-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px;
+        }
+        .slider-container span {
+            text-align: center;
+            word-break: keep-all;
+            white-space: pre-wrap;
+        }
+        input[type="range"] {
+            width: 100%;
+            max-width: 600px;
+        }
+        .output {
+            font-size: 1.5em;
+            margin-top: 10px;
+        }
+        .description {
+            font-size: 1em;
+            color: #555;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>レンジスライダー</h1>
+    <div class="slider-container">
+        <span>完全に
+当てはまらない</span>
+        <input type="range" id="rangeSlider" min="0" max="99" value="50">
+        <span>完全に
+当てはまる</span>
+    </div>
+    <div class="output">
+        現在の値: <span id="sliderValue">50</span>
+    </div>
+    <div class="description">
+        このスライダーを使用して、選択肢がどの程度当てはまるかを評価してください
+        値は自動的にクリップボードに保存されます
+    </div>
+
+    <script>
+        const slider = document.getElementById('rangeSlider');
+        const sliderValue = document.getElementById('sliderValue');
+
+        slider.addEventListener('input', () => {
+            sliderValue.textContent = slider.value;
+            navigator.clipboard.writeText(slider.value).then(() => {
+                console.log(`値 ${slider.value} がクリップボードにコピーされました!`);
+            }).catch(err => {
+                console.error('クリップボードにコピーできませんでした: ', err);
+            });
+        });
+
+        // Initialize the displayed value on page load
+        sliderValue.textContent = slider.value;
+    </script>
+</body>
+</html>
